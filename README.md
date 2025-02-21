@@ -1,36 +1,106 @@
-これは、[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)でブートストラップされた[Next.js](https://nextjs.org)プロジェクトです。
+# アプリ名：AI モチベーター
 
-## はじめに
+## プロジェクト概要
 
-まず、開発サーバーを実行します:
+- ユーザーがテーマを入力すると、AI がモチベーションを高める前向きな一言アドバイスを生成。
 
-```bash
-npm run dev
-# または
-yarn dev
-# または
-pnpm dev
-# または
-bun dev
-```
+## プロジェクトの目的
 
-ブラウザで[http://localhost:3000](http://localhost:3000)を開いて、結果を確認してください。
+- モダン言語 (Next.js, Python) を使用したシンプルな Web アプリを作成
+- 初心者が 3 日以内でベース部分を完成できるシンプルな構成
+- デプロイ環境は Vercel を使用し、実際に動作するアプリを構築
+- フロントエンドとバックエンド間の API 通信を学ぶことを目的とする
 
-`app/page.js`を編集することでページの編集を開始できます。ファイルを編集するとページが自動的に更新されます。
+## 想定スタック：
 
-このプロジェクトは、[Geist](https://vercel.com/font)という Vercel の新しいフォントファミリーを自動的に最適化して読み込むために、[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)を使用しています。
+- Next.js
+- Vercel
+- Python(FastAPI)
+- Hugging Face(OpenAI)
 
-## 詳しく学ぶ
+## 想定期間：
 
-Next.js について詳しく学ぶには、以下のリソースをご覧ください:
+- 5 日
+  - 要件定義（1日）
+  - ベース実装（3日）
+  - 調整・テスト（1日）
 
-- [Next.js ドキュメント](https://nextjs.org/docs) - Next.js の機能と API について学べます。
-- [Learn Next.js](https://nextjs.org/learn) - インタラクティブな Next.js チュートリアルです。
+## デプロイに関する制約（注意点）：
 
-[Next.js GitHub リポジトリ](https://github.com/vercel/next.js)もチェックしてみてください。フィードバックや貢献をお待ちしています！
+- Vercel でデプロイし、URL でアクセス可能な状態にする
+- API キーや機密情報は環境変数として管理
 
-## Vercel でデプロイ
+## 全体フロー
 
-Next.js アプリをデプロイする最も簡単な方法は、Next.js の開発者が提供する[Vercel プラットフォーム](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)を使用することです。
+1. [Next.js (フロントエンド)]
 
-詳細については、[Next.js デプロイメントドキュメント](https://nextjs.org/docs/app/building-your-application/deploying)をご覧ください。
+   - ユーザーが入力 (インプット)
+   - `fetch` API を使って Python に JSON 形式でリクエストを送信
+
+2. [Python (FastAPI/Flask バックエンド)]
+
+   - ユーザーの入力を受信
+   - 入力内容を分析・プロンプトを作成
+   - `requests` モジュールを使用して AI API にプロンプトを送信
+
+3. [AI サービス (OpenAI / Hugging Face など)]
+
+   - AI がプロンプトに基づいて回答を生成
+   - AI のレスポンスを Python に返却
+
+4. [Python (FastAPI/Flask バックエンド)]
+
+   - AI の回答を受信・整形
+   - JSON 形式で Next.js にレスポンスを返却
+
+5. [Next.js (フロントエンド)]
+   - 結果を画面に表示
+
+## 目標スケジュール
+
+- **1日目**:
+  - プロジェクトの目的と範囲の確認
+  - 要件定義の作成
+  - スケジュールとリソースの計画
+- **2日目**:
+  - プロジェクトのセットアップ
+  - フロントエンドの基本構築
+  - バックエンドの基本構築
+- **3日目**:
+  - フロントエンドとバックエンドの統合
+  - AI サービスとの連携
+  - フロントエンドでの結果表示
+- **4日目**:
+  - 全体のテスト
+  - デプロイ準備
+  - デプロイと最終確認
+- **5日目**:
+  - スタイル調整
+  - プロンプトの改善
+  - テスト
+  - デプロイ
+
+## 個人的に心がけること
+
+- **技術を深追いしない**:
+
+  - 必要最低限の知識で動くものを作ることを優先。
+  - 時間を効率的に使うことを心がける。
+
+- **まずはデプロイすることを優先する**:
+
+  - 実際に動作するプロダクトを早期にデプロイ。
+
+## 開発記録
+
+### 1日目: 準備と計画
+
+- Readme の作成:
+  - プロジェクトの概要と目的を記述。
+  - 使用する技術やツールを明記。
+  - スケジュールとリソースの計画を作成。
+
+-テスト開発
+  -Next.jsのインストール
+  -Vercelのセットアップ
+  -テストデプロイ
