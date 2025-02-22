@@ -1,6 +1,23 @@
 import Image from "next/image";
 
 export function Main() {
+  const sendThemeToBackend = async () => {
+    try {
+      // バックエンドにPOSTリクエストを送信
+      const response = await fetch("http://localhost:8000/motivate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ theme }), // テーマをJSON形式で送信
+      });
+      const data = await response.json(); // レスポンスをJSONとして取得
+      console.log(data.message); // レスポンスメッセージをコンソールに表示
+    } catch (error) {
+      console.error("Error sending theme to backend:", error); // エラーがあれば表示
+    }
+  };
+
   return (
     <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start">
       {/* Next.jsのロゴを表示 */}
