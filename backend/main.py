@@ -1,3 +1,8 @@
+# CORS（Cross-Origin Resource Sharing）について:
+# CORSは、異なるオリジン（ドメイン、プロトコル、ポート）間でのリソース共有を許可する仕組みです。
+# 通常、ブラウザはセキュリティのために異なるオリジン間のリクエストを制限します。
+# CORSを設定することで、特定のオリジンからのリクエストを許可し、データ共有を可能にします。
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
