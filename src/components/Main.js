@@ -33,7 +33,7 @@ export function Main() {
   const sendThemeToBackend = async () => {
     try {
       // fetch APIを使ってバックエンドにPOSTリクエストを送信
-      const response = await fetch("http://localhost:8000/motivate", {
+      const response = await fetch("http://127.0.0.1:8000/motivate", {
         method: "POST", // HTTPメソッドをPOSTに設定
         headers: {
           "Content-Type": "application/json", // リクエストのデータ形式をJSONに設定
