@@ -124,7 +124,7 @@
     pip3 install fastapi uvicorn
     ```
 
-    システムエラーが出た。仮想環境の構築を行う。
+    システムエラー（システム全体へのPythonパッケージのインストールが制限されている）が出たので、仮想環境の構築を行う。
 
   - 仮想環境の構築(venv)
 
@@ -138,9 +138,19 @@
     source venv/bin/activate
     ```
 
+  - `uvicorn`のインストール
+
+    ```
+    pip install uvicorn
+    ```
+
+  - サーバーの起動
+
+    ```
+    uvicorn backend.main:app --reload
+    ```
 
   - 仮想環境の無効化
-
     ```
     deactivate
     ```
