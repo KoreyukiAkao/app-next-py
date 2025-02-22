@@ -1,7 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 # FastAPIのアプリケーションを作成
 app = FastAPI()
+
+# CORSの設定を追加
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 必要に応じて特定のオリジンを指定
+    allow_credentials=True,
+    allow_methods=["*"],  # 必要に応じて特定のメソッドを指定
+    allow_headers=["*"],
+)
+
+class Theme(BaseModel):
+    theme: str
 
 # ルートURLにアクセスしたときの処理
 @app.get("/")
@@ -11,8 +25,9 @@ async def read_root():
 
 # /motivateエンドポイントにPOSTリクエストが来たときの処理
 @app.post("/motivate")
-async def motivate(theme: str):
+async def motivate(theme: Theme):
+    print(f"Received theme: {theme.theme}")
     # ここにAIサービスとの連携ロジックを追加する
     # 例えば、AIにテーマを送ってモチベーションを高めるメッセージを生成する
-    return {"message": f"Motivation for {theme}"}
+    return {"message": f"Motivation for {theme.theme}"}
     # テーマに基づいたモチベーションメッセージを返す
