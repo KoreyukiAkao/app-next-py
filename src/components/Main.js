@@ -1,20 +1,54 @@
+// このコンポーネントの動作:
+// 1. ユーザーがテキストボックスにテーマを入力する。
+//    - テキストボックスの値は、ReactのuseStateフックを使って管理される。
+//    - 入力が変わるたびに、handleInputChange関数が呼ばれる。
+//    - handleInputChangeは、イベントオブジェクトから入力された値を取得し、themeの状態を更新する。
+//      - e: イベントオブジェクト
+//      - target: イベントが発生した要素（ここでは<input>）
+//      - value: テキストボックスに入力された現在の値
+//    - setThemeが実行されると:
+//      - useStateフックによってthemeの状態が更新される
+//      - コンポーネントが再レンダリングされる
+//      - テキストボックスに入力された値がUIに反映される
+// 2. 送信ボタンをクリックすると、sendThemeToBackend関数が呼ばれる。
+//    - sendThemeToBackendは、fetch APIを使ってバックエンドにPOSTリクエストを送信する。
+//    - リクエストのボディには、JSON形式でthemeの状態が含まれる。
+//    - バックエンドからのレスポンスを受け取り、コンソールにメッセージを表示する。
+// 3. バックエンドとの通信が成功すると、コンソールにバックエンドからのメッセージが表示される。
+//    - エラーが発生した場合は、エラーメッセージがコンソールに表示される。
+
 import Image from "next/image";
+import { useState } from "react";
 
 export function Main() {
+  // ユーザーが入力したテーマを保存するための状態を作成
+  const [theme, setTheme] = useState("");
+
+  // input の値が変わったときに呼ばれる関数
+  const handleInputChange = (e) => {
+    setTheme(e.target.value); // ユーザーが入力したテキストを取得して保存
+  };
+
+  // 送信ボタンを押したときの処理
   const sendThemeToBackend = async () => {
     try {
-      // バックエンドにPOSTリクエストを送信
+      // fetch APIを使ってバックエンドにPOSTリクエストを送信
       const response = await fetch("http://localhost:8000/motivate", {
-        method: "POST",
+        method: "POST", // HTTPメソッドをPOSTに設定
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // リクエストのデータ形式をJSONに設定
         },
-        body: JSON.stringify({ theme }), // テーマをJSON形式で送信
+        body: JSON.stringify({ theme }), // themeの状態をJSON形式でリクエストボディに含める
       });
-      const data = await response.json(); // レスポンスをJSONとして取得
-      console.log(data.message); // レスポンスメッセージをコンソールに表示
+
+      // レスポンスをJSONとして取得
+      const data = await response.json();
+
+      // バックエンドからのメッセージをコンソールに表示
+      console.log(data.message);
     } catch (error) {
-      console.error("Error sending theme to backend:", error); // エラーがあれば表示
+      // エラーが発生した場合は、エラーメッセージをコンソールに表示
+      console.error("Error sending theme to backend:", error);
     }
   };
 
