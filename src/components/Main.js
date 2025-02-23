@@ -33,7 +33,9 @@ export function Main() {
   // 送信ボタンを押したときの処理
   const sendThemeToBackend = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/summarize", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      console.log(backendUrl);
+      const response = await fetch(backendUrl + "/summarize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
