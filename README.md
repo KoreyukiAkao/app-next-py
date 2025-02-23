@@ -250,3 +250,9 @@ NEXT_PUBLIC_BACKEND_URL=https://your-backend-url.onrender.com
   - Vercel と Render の比較
 
 - プロジェクトの変更 （app-next-py へ）
+- バックエンドのパッケージのインストール
+- バックエンドのリポジトリを作成
+- Render へのデプロイ
+- GitHubとの再接続
+  - プロジェクト変更、リポジトリ追加、作業コストが高い（もっと良い方法はないか？）
+- Next: ローカル開発 
