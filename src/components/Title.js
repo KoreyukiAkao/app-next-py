@@ -4,7 +4,7 @@ export function Title(props) {
   return (
     <>
       <Head>
-        <title>{props.title} | AIモチベーター</title>
+        <title>{`${props.title} | AIモチベーター`}</title>
       </Head>
     </>
   );
