@@ -23,6 +23,7 @@ import { useState } from "react";
 export function Main() {
   // ユーザーが入力したテーマを保存するための状態を作成
   const [theme, setTheme] = useState("");
+  const [summary, setSummary] = useState(""); // summaryを保存するための状態を追加
 
   // input の値が変わったときに呼ばれる関数
   const handleInputChange = (e) => {
@@ -32,22 +33,21 @@ export function Main() {
   // 送信ボタンを押したときの処理
   const sendThemeToBackend = async () => {
     try {
-      // fetch APIを使ってバックエンドにPOSTリクエストを送信
-      const response = await fetch("http://127.0.0.1:8000/motivate", {
-        method: "POST", // HTTPメソッドをPOSTに設定
+      const response = await fetch("http://127.0.0.1:8000/summarize", {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json", // リクエストのデータ形式をJSONに設定
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ theme }), // themeの状態をJSON形式でリクエストボディに含める
+        body: JSON.stringify({ query: theme }),
       });
 
-      // レスポンスをJSONとして取得
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-      // バックエンドからのメッセージをコンソールに表示
-      console.log(data.message);
+      const data = await response.json();
+      setSummary(data.summary); // 取得したsummaryを状態に保存
     } catch (error) {
-      // エラーが発生した場合は、エラーメッセージをコンソールに表示
       console.error("Error sending theme to backend:", error);
     }
   };
@@ -61,7 +61,7 @@ export function Main() {
       <input
         type="text"
         placeholder="テーマを入力" // テキストボックスの中に表示されるヒント
-        className="border-4 border-red-900 rounded-md p-2 w-full" // スタイルを適用
+        className="border-4 border-red-900 rounded-md p-2 w-full text-black font-bold" // スタイルを適用
         value={theme} // 入力した文字を保存
         onChange={handleInputChange} // 入力が変わったときに呼ばれる関数
       />
@@ -70,6 +70,14 @@ export function Main() {
       <button onClick={sendThemeToBackend} className="mt-2 p-2 bg-blue-500 text-white rounded">
         送信
       </button>
+
+      {/* summaryを表示 */}
+      {summary && (
+        <div className="mt-4 p-4 border rounded bg-gray-100 text-black">
+          <h2 className="text-lg font-bold">要約:</h2>
+          <p>{summary}</p>
+        </div>
+      )}
     </main>
   );
 }
