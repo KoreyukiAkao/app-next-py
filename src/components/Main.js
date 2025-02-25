@@ -87,6 +87,31 @@ export function Main() {
     window.speechSynthesis.speak(utterance);
   };
 
+  const fetchTranslation = async (word) => {
+    try {
+      const response = await fetch("https://api.deepl.com/v2/translate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `DeepL-Auth-Key ${process.env.DEEPL_API_KEY}`,
+        },
+        body: new URLSearchParams({
+          text: word,
+          target_lang: "JA",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setModalContent(data.translations[0].text);
+    } catch (error) {
+      console.error("Error fetching translation:", error);
+    }
+  };
+
   return (
     <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start w-full">
       <h1 className="text-5xl font-bold text-center w-full leading-tight">
