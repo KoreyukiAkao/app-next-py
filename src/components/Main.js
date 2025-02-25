@@ -83,7 +83,7 @@ export function Main() {
   const speak = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US"; // 言語を設定
-    utterance.rate = 0.1; // 読み上げ速度を設定（1.0が通常の速度）
+    utterance.rate = 0.75; // 読み上げ速度を設定（1.0が通常の速度）
     window.speechSynthesis.speak(utterance);
   };
 
@@ -108,14 +108,14 @@ export function Main() {
       const data = await response.json();
       setModalContent(data.translations[0].text);
     } catch (error) {
-      console.error("Error fetching translation:", error);
+      // console.error("Error fetching translation:", error);
     }
   };
 
   return (
     <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start w-full">
       <h1 className="text-5xl font-bold text-center w-full leading-tight">
-        Wikipedia <span className="block font text-4xl">要約アプリ</span>
+        Wikipedia <span className="block font text-4xl">要約表示アプリ</span>
       </h1>
       <div className="flex w-full relative">
         {/* ユーザーがテーマを入力するためのテキストボックス */}
