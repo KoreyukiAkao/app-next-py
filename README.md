@@ -268,3 +268,4 @@ NEXT_PUBLIC_BACKEND_URL=https://your-backend-url.onrender.com
   - UptimeRobot で監視、定期実行
 - フロントエンドスタイル調整
 - wikiページURLの追加
+- 音声読み上げの追加
