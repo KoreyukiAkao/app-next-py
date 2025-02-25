@@ -264,3 +264,7 @@ NEXT_PUBLIC_BACKEND_URL=https://your-backend-url.onrender.com
     - 環境変数の設定
     - フロントエンドのURLを環境変数に設定
     - バックエンドのURLを環境変数に設定
+- Renderが定期的にスリープに入ってしまう問題
+  - UptimeRobot で監視、定期実行
+- フロントエンドスタイル調整
+- wikiページURLの追加
