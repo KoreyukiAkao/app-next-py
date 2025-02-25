@@ -1,12 +1,17 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stacks } from "./stacks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 
 export function Main() {
   // ユーザーが入力したテーマを保存するための状態を作成
   const [theme, setTheme] = useState("");
-  const [summary, setSummary] = useState(""); // summaryを保存するための状態を追加
-  const [wikiUrl, setWikiUrl] = useState(""); // WikipediaのURLを保存するための状態を追加
+  const [summary, setSummary] = useState("");
+  const [translatedSummary, setTranslatedSummary] = useState("");
+  const [keywords, setKeywords] = useState([]);
+  const [wikiUrl, setWikiUrl] = useState("");
+  const [modalContent, setModalContent] = useState(null);
 
   // input の値が変わったときに呼ばれる関数
   const handleInputChange = (e) => {
@@ -36,10 +41,50 @@ export function Main() {
       }
 
       const data = await response.json();
-      setSummary(data.summary); // 取得したsummaryを状態に保存
-      setWikiUrl(data.url); // 取得したURLを状態に保存
+      setSummary(data.summary);
+      setTranslatedSummary(data.translated_summary);
+      setWikiUrl(data.url);
+
+      // キーワードが存在する場合のみ設定
+      if (data.keywords && Array.isArray(data.keywords)) {
+        setKeywords(data.keywords.slice(0, 3)); // キーワードの数を制限
+      } else {
+        setKeywords([]); // キーワードがない場合は空の配列を設定
+      }
     } catch (error) {
+      console.error("Error fetching summary:", error);
     }
+  };
+
+  const escapeRegExp = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  };
+
+  const highlightKeywords = (text, keywords) => {
+    const regex = new RegExp(`\\b(${keywords.map((k) => escapeRegExp(k.word)).join("|")})\\b`, "gi");
+    return text.split(regex).map((part, index) =>
+      keywords.some((k) => k.word.toLowerCase() === part.toLowerCase()) ? (
+        <span
+          key={index}
+          style={{ color: "black", fontWeight: "bold", cursor: "pointer" }}
+          onClick={() => {
+            setModalContent(keywords.find((k) => k.word.toLowerCase() === part.toLowerCase()).translation);
+            speak(part);
+          }}
+        >
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
+  const speak = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US"; // 言語を設定
+    utterance.rate = 0.1; // 読み上げ速度を設定（1.0が通常の速度）
+    window.speechSynthesis.speak(utterance);
   };
 
   return (
@@ -67,15 +112,40 @@ export function Main() {
       {/* summaryを表示 */}
       {summary && (
         <div className="mt-4 p-4 border rounded bg-gray-100 text-black w-full">
-          <h2 className="text-lg font-bold">要約:</h2>
+          <h2 className="text-lg font-bold">日本語要約:</h2>
           <p>{summary}</p>
-          {wikiUrl && (
-            <a href={wikiUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline mt-2 block">
-              Wikipediaで記事を読む
-            </a>
-          )}
         </div>
       )}
+
+      {translatedSummary && (
+        <div className="mt-4 p-4 border rounded bg-gray-100 text-black w-full">
+          <h2 className="text-lg font-bold">英語要約:</h2>
+          <p>
+            {highlightKeywords(translatedSummary, keywords)}
+            <button onClick={() => speak(translatedSummary)} className="ml-2 text-blue-500">
+              <FontAwesomeIcon icon={faVolumeUp} />
+            </button>
+          </p>
+        </div>
+      )}
+
+      {wikiUrl && (
+        <a href={wikiUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline mt-2 block">
+          Wikipediaで記事を読む
+        </a>
+      )}
+
+      {modalContent && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setModalContent(null)}>
+              &times;
+            </span>
+            <p>{modalContent}</p>
+          </div>
+        </div>
+      )}
+
       {/* スタックスロゴを表示 */}
       <Stacks />
     </main>
