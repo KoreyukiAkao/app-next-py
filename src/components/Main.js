@@ -50,6 +50,16 @@ export function Main() {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US"; // 英語で読み上げ
     utterance.rate = 0.5; // 読み上げ速度を設定
+
+    // 利用可能な音声を取得
+    const voices = window.speechSynthesis.getVoices();
+    // 英語の音声を選択
+    const englishVoice = voices.find((voice) => voice.lang.startsWith("en"));
+
+    if (englishVoice) {
+      utterance.voice = englishVoice;
+    }
+
     window.speechSynthesis.speak(utterance);
   };
 
