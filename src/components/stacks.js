@@ -13,7 +13,7 @@ export function Stacks() {
           <Image className="dark:invert" src="/next-js.svg" alt="Next.js logo" width={50} height={38} priority />
           <Image className="" src="/react.svg" alt="React logo" width={50} height={38} priority />
           <Image className="" src="/tailwind.svg" alt="tailwind logo" width={50} height={38} priority />
-          <Image className="" src="/vercel_favicon.svg" alt="Vercel logo" width={50} height={38} priority />
+          <Image className="" src="/vercel.svg" alt="Vercel logo" width={50} height={38} priority />
         </div>
       </div>
 
