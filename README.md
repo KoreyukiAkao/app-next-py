@@ -80,15 +80,6 @@ NEXT_PUBLIC_BACKEND_URL=https://your-backend-url.onrender.com
 
 ※Vercel デプロイ時にも「Environment Variables」で設定。
 
-## トラブルシューティング
-
-- CORS policy エラー
-  - FastAPI に CORS ミドルウェアを追加する。
-- 404 Not Found
-  - 正しいバックエンド URL を.env.local に設定。
-- Invalid credentials エラー
-  - 環境変数や API キー設定を再確認する。
-
 ## 目標開発期間：
 
 - 6 日
@@ -269,4 +260,7 @@ NEXT_PUBLIC_BACKEND_URL=https://your-backend-url.onrender.com
   - バックエンドからのレスポンスを受け取り、画面に表示
 
 - デプロイテスト
-  - ライブ環境で正常に動作するのか？
+  - ライブ環境で正常に動作することを確認
+    - 環境変数の設定
+    - フロントエンドのURLを環境変数に設定
+    - バックエンドのURLを環境変数に設定
