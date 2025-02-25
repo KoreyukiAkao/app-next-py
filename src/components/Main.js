@@ -36,27 +36,29 @@ export function Main() {
   };
 
   return (
-    <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start">
-      <h1 className="text-4xl font-bold">
-        Wikipedia  要約アプリ
+    <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start w-full">
+      <h1 className="text-5xl font-bold text-center w-full leading-tight">
+        Wikipedia <span className="block">要約アプリ</span>
       </h1>
-      {/* ユーザーがテーマを入力するためのテキストボックス */}
-      <input
-        type="text"
-        placeholder="テーマを入力" // テキストボックスの中に表示されるヒント
-        className="border-4 border-red-900 rounded-md p-2 w-full text-black font-bold" // スタイルを適用
-        value={theme} // 入力した文字を保存
-        onChange={handleInputChange} // 入力が変わったときに呼ばれる関数
-      />
+      <div className="flex w-full">
+        {/* ユーザーがテーマを入力するためのテキストボックス */}
+        <input
+          type="text"
+          placeholder="テーマを入力" // テキストボックスの中に表示されるヒント
+          className="border-4 border-blue-500 rounded-md rounded-tr-none rounded-br-none p-2 w-full text-black font-bold" // スタイルを適用
+          value={theme} // 入力した文字を保存
+          onChange={handleInputChange} // 入力が変わったときに呼ばれる関数
+        />
 
-      {/* テーマを送信するためのボタン */}
-      <button onClick={sendThemeToBackend} className="mt-2 p-2 bg-blue-500 text-white rounded w-full">
-        送信
-      </button>
+        {/* テーマを送信するためのボタン */}
+        <button onClick={sendThemeToBackend} className="p-2 bg-blue-500 text-white rounded-tl-none rounded-tr-md rounded-bl-none rounded-br-md w-1/5 min-w-min">
+          送信
+        </button>
+      </div>
 
       {/* summaryを表示 */}
       {summary && (
-        <div className="mt-4 p-4 border rounded bg-gray-100 text-black">
+        <div className="mt-4 p-4 border rounded bg-gray-100 text-black w-full">
           <h2 className="text-lg font-bold">要約:</h2>
           <p>{summary}</p>
         </div>
